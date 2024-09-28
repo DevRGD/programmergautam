@@ -2,8 +2,8 @@ import "./globals.css";
 import { Inter, Caveat } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { GlobalStateProvider } from "@/hooks/globalState";
 
-const inter = Inter({ subsets: ["latin"] });
 const handwriting = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata = {
@@ -27,12 +27,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${handwriting.className}`}>
-      <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <GlobalStateProvider>
+      <html lang="en" className={`${handwriting.className} scroll-smooth`}>
+        <body>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </body>
+      </html>
+    </GlobalStateProvider>
   );
 }

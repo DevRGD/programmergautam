@@ -1,14 +1,30 @@
+"use client";
+import Section from "./Section";
+import Card from "./Card";
+
+const skillsData = [
+  {
+    name: "JavaScript",
+    description: "A versatile programming language primarily used for web development.",
+  },
+  {
+    name: "React",
+    description: "A JavaScript library for building user interfaces.",
+  },
+  {
+    name: "Node.js",
+    description: "A JavaScript runtime built on Chrome's V8 JavaScript engine.",
+  },
+  {
+    name: "CSS",
+    description: "A stylesheet language used for describing the presentation of a document.",
+  },
+  {
+    name: "HTML",
+    description: "The standard markup language for documents designed to be displayed in a web browser.",
+  },
+];
+
 export default function Skills() {
-  return (
-    <section id="skills" className="h-screen p-8 bg-gradient-pink flex flex-col justify-center ">
-      <h2 className="text-3xl font-bold mb-4">Skills</h2>
-      <ul className="grid grid-cols-2 gap-4">
-        <li>React.js</li>
-        <li>Node.js</li>
-        <li>Next.js</li>
-        <li>MongoDB</li>
-        {/* Add more skills */}
-      </ul>
-    </section>
-  );
+  return <Section title="Skills" data={skillsData} Card={Card} withScallop={false} bgColor="bg-gradient-lavender" />;
 }

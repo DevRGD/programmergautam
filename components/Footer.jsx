@@ -1,26 +1,48 @@
 import Link from "next/link";
-import { FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="p-4 flex justify-between items-center">
-      <p className="text-slate-500">© {new Date().getFullYear()} Programmer Gautam.</p>
-      <div className="flex space-x-4">
-        <Link href="https://github.com/programmergautam" passHref>
-          <FaGithub className="text-black" />
+    <footer className="px-10 flex flex-col-reverse sm:flex-row justify-between items-center text-white space-y-2 fixed w-full bottom-0 z-50">
+      {/* Copyright Section */}
+      <p className="text-center sm:text-left">© {new Date().getFullYear()} Gautam Das</p>
+
+      {/* Social Icons Section */}
+      <div className="flex space-x-4 sm:space-x-2 justify-center sm:justify-end">
+        {/* Github */}
+        <Link href="https://github.com/programmergautam" passHref target="_blank" rel="noopener noreferrer">
+          <div className="p-2 transition-transform transform hover:scale-125">
+            <FaGithub className="text-xl text-black" />
+          </div>
         </Link>
-        <Link href="https://www.linkedin.com/in/programmergautam/" passHref>
-          <FaLinkedin className="text-blue-800" />
+
+        {/* LinkedIn */}
+        <Link href="https://www.linkedin.com/in/programmergautam/" passHref target="_blank" rel="noopener noreferrer">
+          <div className="p-2 transition-transform transform hover:scale-125">
+            <FaLinkedin className="text-xl text-blue-700" />
+          </div>
         </Link>
-        <Link href="https://twitter.com/programmergautam" passHref>
-          <FaXTwitter className="text-black" />
+
+        {/* Twitter */}
+        <Link href="https://twitter.com/programmergautam" passHref target="_blank" rel="noopener noreferrer">
+          <div className="p-2 transition-transform transform hover:scale-125">
+            <FaXTwitter className="text-xl text-black" />
+          </div>
         </Link>
-        <Link href="https://www.facebook.com/programmergautam" passHref>
-          <FaFacebook className="text-blue-600" />
+
+        {/* Facebook */}
+        <Link href="https://www.facebook.com/programmergautam" passHref target="_blank" rel="noopener noreferrer">
+          <div className="p-2 transition-transform transform hover:scale-125">
+            <FaFacebook className="text-xl text-blue-600" />
+          </div>
         </Link>
-        <Link href="https://www.instagram.com/programmergautam" passHref>
-          <FaInstagram className="text-pink-500" />
+
+        {/* Instagram */}
+        <Link href="https://www.instagram.com/programmergautam" passHref target="_blank" rel="noopener noreferrer">
+          <div className="p-2 transition-transform transform hover:scale-125">
+            <FaInstagram className="text-xl text-rose-700" />
+          </div>
         </Link>
       </div>
     </footer>

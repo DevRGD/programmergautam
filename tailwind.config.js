@@ -6,12 +6,12 @@ module.exports = {
       colors: {
         royalblue: "#4169E1",
         seagreen: "#2E8B57",
-        // pink: "#FFC0CB",
+        pink: "#FFC0CB",
         red: "#FF6347",
         teal: "#008080",
         magenta: "#FF00FF",
         purple: "#800080",
-        lavender: "#E6E6FA",
+        lavender: "#F1BEE7",
       },
       backgroundImage: {
         "gradient-light": "radial-gradient(circle, rgba(65,105,225,0.5) 0%, rgba(65,105,225,0) 50%)",
@@ -21,7 +21,7 @@ module.exports = {
         "gradient-teal": "radial-gradient(circle, rgba(0,128,128,0.5) 0%, rgba(0,128,128,0) 50%)",
         "gradient-magenta": "radial-gradient(circle, rgba(255,0,255,0.5) 0%, rgba(255,0,255,0) 50%)",
         "gradient-purple": "radial-gradient(circle, rgba(128,0,128,0.5) 0%, rgba(128,0,128,0) 50%)",
-        "gradient-lavender": "radial-gradient(circle, rgba(230,230,250,0.5) 0%, rgba(230,230,250,0) 50%)",
+        "gradient-lavender": "radial-gradient(circle, rgb(241, 190, 231,0.5) 0%, rgba(230,230,250,0) 50%)",
       },
     },
   },

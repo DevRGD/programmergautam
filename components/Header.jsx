@@ -9,12 +9,9 @@ export default function Header() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true); // Control visibility of the navbar
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [hideTimeout, setHideTimeout] = useState(null); // Track timeout for hiding
 
   const links = [
-    { name: "About", href: "/#about" },
+    { name: "Blog", href: "/blog" },
     { name: "Skills", href: "/#skills" },
     { name: "Projects", href: "/#projects" },
     { name: "Contact", href: "/#contact" },
@@ -44,108 +41,62 @@ export default function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
-  // Handle scroll for showing and hiding navbar on scroll up/down
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-
-    // Only hide/show navbar if scroll height is greater than 100
-    if (currentScrollY < 100) {
-      setIsVisible(true); // Always visible when less than 100
-      resetHideTimeout(); // Reset timeout to ensure it doesn't hide
-      return;
-    }
-
-    if (currentScrollY < lastScrollY) {
-      // Scrolling up, show navbar
-      setIsVisible(true);
-      resetHideTimeout(); // Reset the hide timeout on scroll up
-    } else if (currentScrollY > lastScrollY) {
-      // Scrolling down, hide navbar
-      setIsVisible(false);
-    }
-
-    setLastScrollY(currentScrollY);
-  };
-
-  const resetHideTimeout = () => {
-    if (hideTimeout) {
-      clearTimeout(hideTimeout);
-    }
-    // Hide the navbar after 3 seconds of inactivity
-    const timeout = setTimeout(() => {
-      setIsVisible(false);
-    }, 3000);
-    setHideTimeout(timeout);
-  };
-
-  useEffect(() => {
-    // Listen to scroll events
-    window.addEventListener("scroll", handleScroll);
-
-    // Reset hide timer on user interaction (hover or scroll)
-    window.addEventListener("mousemove", resetHideTimeout);
-    window.addEventListener("touchstart", resetHideTimeout); // For mobile
-
-    resetHideTimeout(); // Initial timeout
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("mousemove", resetHideTimeout);
-      window.removeEventListener("touchstart", resetHideTimeout);
-    };
-  }, [lastScrollY, hideTimeout]);
-
   return (
-    <header
-      className={`p-4 px-10 flex justify-between items-center sticky top-0 left-0 bg-transparent text-nowrap transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      }`}
-      onMouseEnter={() => setIsVisible(true)} // Ensure it reappears when hovered
-      onMouseLeave={handleMouseLeave} // Auto-hide after 3 seconds of mouse leave
-    >
-      {/* Logo */}
-      <h1 className="text-4xl font-extrabold text-teal">
-        Gautam <span className="text-4xl text-royalblue">Das.</span>
-      </h1>
+    <header className="bg-transparent fixed w-full top-0 z-50">
+      <div className="container mx-auto flex justify-between items-center py-4 px-6">
+        {/* Logo */}
+        <Link href="/" className="md:text-4xl text-2xl font-bold text-white">
+          <span className="bg-teal p-1">Gautam</span> <span className="text-teal font-bold">Das.</span>
+        </Link>
 
-      {/* Menu button for mobile (hidden on larger screens) */}
-      <div className="md:hidden">
-        <MenuButton toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-      </div>
+        {/* Menu button for mobile (hidden on larger screens) */}
+        <div className="md:hidden">
+          <MenuButton toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+        </div>
 
-      {/* Navigation for larger screens */}
-      <nav className="relative hidden md:flex space-x-4 transition-all duration-300">
-        <div
-          className="absolute bottom-0 left-0 h-[2px] bg-royalblue transition-all duration-300"
-          style={{
-            width: underlineWidth,
-            transform: `translateX(${underlinePosition}px)`,
-          }}
-        />
-        {links.map((link, index) => (
-          <Link
-            key={index}
-            id={`link-${index}`}
-            href={link.href}
-            className="relative secondary-font hover:text-royalblue"
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
-          >
-            {link.name}
-          </Link>
-        ))}
-      </nav>
-
-      {/* Slide-out menu for mobile */}
-      {isMenuOpen && (
-        <div className="fixed top-0 right-0 h-full w-full bg-black text-white flex flex-col space-y-4 p-8 md:hidden transition-transform duration-300 ease-in-out">
+        {/* Navigation for larger screens */}
+        <nav className="relative hidden md:flex space-x-4 transition-all duration-300">
+          <div
+            className="absolute -bottom-1 left-0 h-[3px] bg-teal transition-all duration-300"
+            style={{
+              width: underlineWidth,
+              transform: `translateX(${underlinePosition}px)`,
+            }}
+          />
           {links.map((link, index) => (
-            <Link key={index} href={link.href} className="block p-4 hover:text-royalblue" onClick={closeMenu}>
+            <Link
+              key={index}
+              id={`link-${index}`}
+              href={link.href}
+              className="relative text-teal font-semibold secondary-font"
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
+            >
               {link.name}
             </Link>
           ))}
+        </nav>
+
+        {/* Slide-out menu for mobile */}
+        <div
+          className={`fixed inset-0 bg-black shadow-lg z-40 md:hidden transition-transform transform ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <nav className="flex flex-col p-6 space-y-4 text-teal">
+            {links.map((link, index) => (
+              <Link
+                key={index}
+                href={link.href}
+                className="text-2xl secondary-font font-semibold hover:text-royalblue transition-all duration-300"
+                onClick={closeMenu}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
         </div>
-      )}
+      </div>
     </header>
   );
 }
