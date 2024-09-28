@@ -48,6 +48,13 @@ export default function Header() {
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
 
+    // Only hide/show navbar if scroll height is greater than 100
+    if (currentScrollY < 100) {
+      setIsVisible(true); // Always visible when less than 100
+      resetHideTimeout(); // Reset timeout to ensure it doesn't hide
+      return;
+    }
+
     if (currentScrollY < lastScrollY) {
       // Scrolling up, show navbar
       setIsVisible(true);
