@@ -23,6 +23,7 @@ export const metadata = {
       },
     ],
   },
+  metadataBase: new URL("https://programmergautam.vercel.app"),
 };
 
 export default function RootLayout({ children }) {
