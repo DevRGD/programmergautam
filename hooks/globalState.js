@@ -1,16 +1,12 @@
 "use client";
+import { data } from "@/libs/data";
 import React, { createContext, useReducer, useContext } from "react";
 
 // Initial state
 const initialState = {
   isVisible: false,
-  colors: {
-    "text-color": "text-tealwave",
-    "bg-color": "bg-tealwave",
-    gradient: "bg-gradient-teal",
-    "text-light": "text-teal-50",
-    "bg-light": "bg-teal-50",
-  },
+  colors: data["colors"][0],
+  data,
 };
 
 // Define action types

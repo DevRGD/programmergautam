@@ -1,7 +1,7 @@
 import "./globals.css";
-import { Inter, Caveat } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { Caveat } from "next/font/google";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 import { GlobalStateProvider } from "@/hooks/globalState";
 
 const handwriting = Caveat({ subsets: ["latin"], weight: ["400", "700"] });

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import MenuButton from "./MenuButton";
+import MobileMenuButton from "../buttons/MobileMenuButton";
 import { useGlobalContext } from "@/hooks/globalState";
 
 export default function Header() {
@@ -74,7 +74,7 @@ export default function Header() {
 
         {/* Menu button for mobile (hidden on larger screens) */}
         <div className="md:hidden">
-          <MenuButton bgColor={bg_color} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+          <MobileMenuButton bgColor={bg_color} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
         </div>
 
         {/* Navigation for larger screens */}

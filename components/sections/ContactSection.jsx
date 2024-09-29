@@ -1,4 +1,4 @@
-export default function Contact() {
+export default function ContactSection() {
   return (
     <section id="contact" className="h-screen p-8 bg-gradient-lavender flex flex-col justify-center">
       <h2 className="text-3xl font-bold mb-4">Contact Me</h2>

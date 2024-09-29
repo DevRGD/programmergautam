@@ -1,4 +1,4 @@
-export default function Projects() {
+export default function ProjectSection() {
   return (
     <section id="projects" className="h-screen p-8 bg-gradient-teal flex flex-col justify-center">
       <h2 className="text-3xl font-bold mb-4">Projects</h2>

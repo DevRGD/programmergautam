@@ -1,6 +1,6 @@
 "use client";
 import Section from "./Section";
-import Card from "./Card";
+import SkillCard from "../cards/SkillCard";
 
 const skillsData = [
   {
@@ -31,7 +31,7 @@ export default function Skills() {
       title="Skills"
       id={"#skills"}
       data={skillsData}
-      Card={Card}
+      Card={SkillCard}
       withScallop={false}
       bgColor="bg-gradient-lavender"
     />

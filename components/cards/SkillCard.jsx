@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function Card({ skill }) {
+export default function SkillCard({ skill }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleMouseEnter = () => {

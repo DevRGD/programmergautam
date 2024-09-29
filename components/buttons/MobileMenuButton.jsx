@@ -1,4 +1,4 @@
-export default function MenuButton({ bgColor, toggleMenu, isMenuOpen }) {
+export default function MobileMenuButton({ bgColor, toggleMenu, isMenuOpen }) {
   return (
     <button onClick={toggleMenu} className="md:hidden p-2 relative w-10 h-10 z-50" aria-label="Toggle menu">
       <div

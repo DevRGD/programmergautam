@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "@/hooks/globalState";
 
-export default function About() {
+export default function AboutSection() {
   const { state, dispatch } = useGlobalContext();
   const [colors, setColors] = useState(state?.colors); // Initialize local state for colors
 
