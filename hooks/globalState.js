@@ -4,14 +4,19 @@ import React, { createContext, useReducer, useContext } from "react";
 // Initial state
 const initialState = {
   isVisible: false,
-  scrollY: 0,
-  currentColor: "teal",
+  colors: {
+    "text-color": "text-tealwave",
+    "bg-color": "bg-tealwave",
+    gradient: "bg-gradient-teal",
+    "text-light": "text-teal-50",
+    "bg-light": "bg-teal-50",
+  },
 };
 
 // Define action types
 const ACTION_TYPES = {
   setIsVisible: "SET_IS_VISIBLE",
-  setCurrentColor: "SET_CURRENT_COLOR",
+  setColors: "SET_COLORS",
 };
 
 // Reducer function to handle state changes
@@ -19,8 +24,8 @@ const globalReducer = (state, action) => {
   switch (action.type) {
     case ACTION_TYPES.setIsVisible:
       return { ...state, isVisible: action.payload };
-    case ACTION_TYPES.setCurrentColor:
-      return { ...state, currentColor: action.payload };
+    case ACTION_TYPES.setColors:
+      return { ...state, colors: action.payload };
     default:
       return state;
   }

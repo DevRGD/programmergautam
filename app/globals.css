@@ -21,11 +21,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: linear-gradient(135deg, theme('colors.seagreen'), theme('colors.teal'));
+  background: linear-gradient(135deg, theme('colors.tealwave'), theme('colors.oceanbreeze'));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, theme('colors.teal'), theme('colors.lavender'));
+  background: linear-gradient(135deg, theme('colors.tealwave'), theme('colors.orchidbloom'));
   border-radius: 8px;
   background-clip: content-box;
 }
