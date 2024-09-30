@@ -11,13 +11,6 @@ export default function Header() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const color = state.color;
-  const text_color = color["text-color"];
-  const bg_color = color["bg-color"];
-  const text_light = color["text-light"];
-  const bg_light = color["bg-light"];
-  const gradient = color["gradient"];
-  const links = state.data.links;
 
   useEffect(() => {
     if (isHovering) {
@@ -53,27 +46,27 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <Link href="/" className="md:text-4xl text-2xl font-bold flex justify-center items-center">
-          <span className={`p-1 rounded-s-md ${bg_color} ${text_light}`}>Gautam</span>{" "}
-          <span className={`p-1 rounded-e-md ${bg_light} ${text_color}`}>Das.</span>
+          <span className={`p-1 rounded-s-sm ${state.color["bg-color"]} ${state.color["text-light"]}`}>Gautam</span>{" "}
+          <span className={`p-1 rounded-e-sm ${state.color["bg-light"]} ${state.color["text-color"]}`}>Das.</span>
         </Link>
 
         {/* Menu button for mobile (hidden on larger screens) */}
         <div className="md:hidden">
-          <MobileMenuButton bgColor={bg_color} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+          <MobileMenuButton bgColor={state.color["bg-color"]} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
         </div>
 
         {/* Navigation for larger screens */}
         <nav className="relative hidden md:flex space-x-4 transition-all duration-300">
           <div
-            className={`absolute -bottom-1 left-0 h-[3px] transition-all duration-300 ${bg_color}`}
+            className={`absolute -bottom-1 left-0 h-[3px] transition-all duration-300 ${state.color["bg-color"]}`}
             style={{ width: underlineWidth, transform: `translateX(${underlinePosition}px)` }}
           />
-          {links.map((link, index) => (
+          {state?.data?.links.map((link, index) => (
             <Link
               key={index}
               id={`link-${index}`}
               href={link.href}
-              className={`relative font-semibold secondary-font ${text_color}`}
+              className={`relative font-semibold secondary-font ${state.color["text-color"]}`}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
             >
@@ -86,14 +79,16 @@ export default function Header() {
         <div
           className={`fixed h-screen inset-0 shadow-lg z-40 md:hidden transition-transform transform ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
-          } ${bg_light}`}
+          } ${state.color["bg-light"]}`}
         >
-          <nav className={`flex h-full items-center flex-col p-6 space-y-4 ${text_color} ${gradient} justify-center`}>
-            {links.map((link, index) => (
+          <nav
+            className={`flex h-full items-center flex-col p-6 space-y-4 ${state.color["text-color"]} ${state.color["gradient"]} justify-center`}
+          >
+            {state?.data?.links.map((link, index) => (
               <Link
                 key={index}
                 href={link.href}
-                className="text-2xl secondary-font font-semibold transition-all duration-300 text_color"
+                className="text-2xl secondary-font font-semibold transition-all duration-300"
                 onClick={closeMenu}
               >
                 {link.name}

@@ -4,7 +4,7 @@ export default function ProjectSection() {
       <h2 className="text-3xl font-bold mb-4">Projects</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Project 1 */}
-        <div className="p-4 bg-white shadow-lg rounded-lg">
+        <div className="p-4 bg-white shadow-lg rounded-sm">
           <h3 className="text-xl font-bold">Project 1</h3>
           <p>Project 1 description goes here. It was built using Next.js and MongoDB.</p>
         </div>

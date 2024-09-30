@@ -8,25 +8,26 @@ const useTouchScrollController = ({ sectionRefs }) => {
   const touchStartY = useRef(0);
   const colors = state.data.colors;
 
-  // Update colors for the specified section
+  // Dispatch color change for a specific section
   const updateColorsForSection = useCallback(
     (sectionIndex) => {
-      const newColor = colors[sectionIndex];
-      dispatch({ type: "SET_COLOR", payload: newColor });
+      dispatch({ type: "SET_COLOR", payload: colors[sectionIndex] });
     },
     [colors, dispatch]
   );
 
-  // Scroll to the specified section
+  // Scroll to the next or previous section based on direction
   const scrollToSection = useCallback(
     (direction) => {
       if (isScrolling.current) return;
       isScrolling.current = true;
 
+      const maxSectionIndex = sectionRefs.current.length - 1;
       let newSectionIndex = currentSection.current;
-      if (direction === "down" && currentSection.current < sectionRefs.current.length - 1) {
+
+      if (direction === "down" && newSectionIndex < maxSectionIndex) {
         newSectionIndex++;
-      } else if (direction === "up" && currentSection.current > 0) {
+      } else if (direction === "up" && newSectionIndex > 0) {
         newSectionIndex--;
       }
 
@@ -34,7 +35,6 @@ const useTouchScrollController = ({ sectionRefs }) => {
       updateColorsForSection(newSectionIndex);
       currentSection.current = newSectionIndex;
 
-      // Reset scrolling after 700ms and set visibility to true again
       setTimeout(() => {
         isScrolling.current = false;
         dispatch({ type: "SET_IS_VISIBLE", payload: true });
@@ -43,63 +43,58 @@ const useTouchScrollController = ({ sectionRefs }) => {
     [sectionRefs, updateColorsForSection, dispatch]
   );
 
-  // Handle scroll events
+  // Handle scroll event for mouse wheel
   const handleScroll = useCallback(
     (event) => {
       event.preventDefault();
       if (!isScrolling.current) {
-        dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during scroll
+        dispatch({ type: "SET_IS_VISIBLE", payload: false });
         event.deltaY > 0 ? scrollToSection("down") : scrollToSection("up");
       }
     },
     [scrollToSection, dispatch]
   );
 
-  // Handle touch start event
-  const handleTouchStart = useCallback(
-    (event) => {
-      touchStartY.current = event.touches[0].clientY;
-      dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during touch start
-    },
-    [dispatch]
-  );
+  // Capture initial touch position for touch scrolling
+  const handleTouchStart = useCallback((event) => {
+    touchStartY.current = event.touches[0].clientY;
+    // No need to dispatch SET_IS_VISIBLE here anymore
+  }, []);
 
-  // Handle touch move event
+  // Handle touch movement to determine scroll direction
   const handleTouchMove = useCallback(
     (event) => {
       event.preventDefault();
       const touchEndY = event.touches[0].clientY;
       const touchDiff = touchStartY.current - touchEndY;
 
+      // Only dispatch SET_IS_VISIBLE: false when the user actually scrolls
       if (!isScrolling.current) {
-        touchDiff > 0 ? scrollToSection("down") : scrollToSection("up");
+        if (Math.abs(touchDiff) > 10) {
+          // Threshold to ensure a significant movement
+          dispatch({ type: "SET_IS_VISIBLE", payload: false });
+          touchDiff > 0 ? scrollToSection("down") : scrollToSection("up");
+        }
       }
     },
-    [scrollToSection]
+    [scrollToSection, dispatch]
   );
 
-  // Handle keyboard navigation
+  // Handle keyboard navigation with arrow keys and page up/down
   const handleKeyDown = useCallback(
     (event) => {
-      switch (event.key) {
-        case "ArrowDown":
-        case "PageDown":
-          event.preventDefault();
-          if (!isScrolling.current) {
-            dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during keypress
-            scrollToSection("down");
-          }
-          break;
-        case "ArrowUp":
-        case "PageUp":
-          event.preventDefault();
-          if (!isScrolling.current) {
-            dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during keypress
-            scrollToSection("up");
-          }
-          break;
-        default:
-          break;
+      if (isScrolling.current) return;
+
+      const direction = ["ArrowDown", "PageDown"].includes(event.key)
+        ? "down"
+        : ["ArrowUp", "PageUp"].includes(event.key)
+        ? "up"
+        : null;
+
+      if (direction) {
+        event.preventDefault();
+        dispatch({ type: "SET_IS_VISIBLE", payload: false });
+        scrollToSection(direction);
       }
     },
     [scrollToSection, dispatch]
@@ -107,18 +102,16 @@ const useTouchScrollController = ({ sectionRefs }) => {
 
   // Initialize and clean up event listeners
   useEffect(() => {
-    const options = { passive: false };
+    const eventOptions = { passive: false };
 
-    // Dispatch visible on first load
     dispatch({ type: "SET_IS_VISIBLE", payload: true });
-
-    window.addEventListener("wheel", handleScroll, options);
-    window.addEventListener("touchstart", handleTouchStart, options);
-    window.addEventListener("touchmove", handleTouchMove, options);
+    window.addEventListener("wheel", handleScroll, eventOptions);
+    window.addEventListener("touchstart", handleTouchStart, eventOptions);
+    window.addEventListener("touchmove", handleTouchMove, eventOptions);
     window.addEventListener("keydown", handleKeyDown);
 
-    // Set initial colors on the first load
-    updateColorsForSection(currentSection.current);
+    updateColorsForSection(currentSection.current); // Initial color setup
+
     return () => {
       window.removeEventListener("wheel", handleScroll);
       window.removeEventListener("touchstart", handleTouchStart);
