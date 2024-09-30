@@ -1,90 +1,86 @@
 import { useRef, useEffect, useCallback } from "react";
 
 const useTouchScrollController = ({ sectionRefs, colors, dispatch }) => {
-  const currentSection = useRef(0); // Track the current section index
-  const isScrolling = useRef(false); // Prevent multiple scrolls
-  const touchStartY = useRef(0); // Store the initial Y position of touch
+  const currentSection = useRef(0);
+  const isScrolling = useRef(false);
+  const touchStartY = useRef(0);
 
+  // Update colors for the specified section
   const updateColorsForSection = useCallback(
     (sectionIndex) => {
-      const newColors = colors[sectionIndex]; // Get the color object for the section
-      setTimeout(() => {
-        dispatch({ type: "SET_COLORS", payload: newColors }); // Update the global state
-      }, 300);
+      const newColors = colors[sectionIndex];
+      dispatch({ type: "SET_COLORS", payload: newColors });
     },
-    [colors, dispatch] // Memoize function with colors and dispatch as dependencies
+    [colors, dispatch]
   );
 
+  // Scroll to the specified section
   const scrollToSection = useCallback(
     (direction) => {
-      if (isScrolling.current) return; // Prevent multiple scrolls at once
-      isScrolling.current = true; // Lock scrolling
+      if (isScrolling.current) return;
+      isScrolling.current = true;
 
-      if (direction === "down") {
-        if (currentSection.current < sectionRefs.current.length - 1) {
-          currentSection.current++;
-          sectionRefs.current[currentSection.current].scrollIntoView({ behavior: "smooth" });
-          updateColorsForSection(currentSection.current);
-        }
-      } else if (direction === "up") {
-        if (currentSection.current > 0) {
-          currentSection.current--;
-          sectionRefs.current[currentSection.current].scrollIntoView({ behavior: "smooth" });
-          updateColorsForSection(currentSection.current);
-        }
+      let newSectionIndex = currentSection.current;
+      if (direction === "down" && currentSection.current < sectionRefs.current.length - 1) {
+        newSectionIndex++;
+      } else if (direction === "up" && currentSection.current > 0) {
+        newSectionIndex--;
       }
 
+      sectionRefs.current[newSectionIndex].scrollIntoView({ behavior: "smooth" });
+      updateColorsForSection(newSectionIndex);
+      currentSection.current = newSectionIndex;
+
       setTimeout(() => {
-        isScrolling.current = false; // Unlock scrolling after a delay
-      }, 700); // Adjust the delay to match the scrolling animation duration
+        isScrolling.current = false;
+      }, 700);
     },
     [sectionRefs, updateColorsForSection]
   );
 
+  // Handle scroll events
   const handleScroll = useCallback(
     (event) => {
-      event.preventDefault(); // Prevent default scrolling behavior
-      if (event.deltaY > 0) {
-        scrollToSection("down");
-      } else {
-        scrollToSection("up");
+      event.preventDefault();
+      if (!isScrolling.current) {
+        event.deltaY > 0 ? scrollToSection("down") : scrollToSection("up");
       }
     },
     [scrollToSection]
   );
 
+  // Handle touch start event
   const handleTouchStart = useCallback((event) => {
-    touchStartY.current = event.touches[0].clientY; // Store initial touch Y position
+    touchStartY.current = event.touches[0].clientY;
   }, []);
 
+  // Handle touch move event
   const handleTouchMove = useCallback(
     (event) => {
       event.preventDefault();
       const touchEndY = event.touches[0].clientY;
       const touchDiff = touchStartY.current - touchEndY;
 
-      if (touchDiff > 0) {
-        scrollToSection("down");
-      } else {
-        scrollToSection("up");
+      if (!isScrolling.current) {
+        touchDiff > 0 ? scrollToSection("down") : scrollToSection("up");
       }
     },
     [scrollToSection]
   );
 
-  // Attach key events
+  // Handle keyboard navigation
   const handleKeyDown = useCallback(
     (event) => {
       switch (event.key) {
         case "ArrowDown":
         case "PageDown":
           event.preventDefault();
-          scrollToSection("down");
+          if (!isScrolling.current) scrollToSection("down");
           break;
         case "ArrowUp":
         case "PageUp":
           event.preventDefault();
-          scrollToSection("up");
+          if (!isScrolling.current) scrollToSection("up");
           break;
         default:
           break;
@@ -93,19 +89,19 @@ const useTouchScrollController = ({ sectionRefs, colors, dispatch }) => {
     [scrollToSection]
   );
 
+  // Initialize and clean up event listeners
   useEffect(() => {
     const options = { passive: false };
 
-    // Attach wheel, touch, and key events
     window.addEventListener("wheel", handleScroll, options);
     window.addEventListener("touchstart", handleTouchStart, options);
     window.addEventListener("touchmove", handleTouchMove, options);
     window.addEventListener("keydown", handleKeyDown);
 
-    updateColorsForSection(currentSection.current); // Set initial colors based on the first section
+    // Set initial colors on the first load
+    updateColorsForSection(currentSection.current);
 
     return () => {
-      // Clean up event listeners
       window.removeEventListener("wheel", handleScroll);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);

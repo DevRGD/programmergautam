@@ -68,8 +68,8 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <Link href="/" className="md:text-4xl text-2xl font-bold flex justify-center items-center">
-          <span className={`p-2 pl-4 rounded-s-full ${bg_color} ${text_light}`}>Gautam</span>{" "}
-          <span className={`font-bold ${text_color}`}>Das.</span>
+          <span className={`p-1 rounded-s-md ${bg_color} ${text_light}`}>Gautam</span>{" "}
+          <span className={`p-1 rounded-e-md ${bg_light} ${text_color}`}>Das.</span>
         </Link>
 
         {/* Menu button for mobile (hidden on larger screens) */}

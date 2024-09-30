@@ -29,8 +29,8 @@ export default function AboutSection() {
   return (
     <section id="about" className={`h-screen px-10 flex flex-col md:flex-row justify-around items-center ${gradient}`}>
       <div
-        className={`flex items-center my-6 absolute -top-0 transform transition-all duration-1000 ${
-          state.isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+        className={`flex items-center my-6 absolute transform transition-all duration-700 ${
+          state.isVisible ? "opacity-100 top-0" : "opacity-0 top-5"
         }`}
       >
         <h2 className={`md:text-4xl text-2xl font-bold ${text_color}`}>About</h2>
@@ -38,7 +38,7 @@ export default function AboutSection() {
 
       {/* Image Container */}
       <div
-        className={`w-full md:w-1/2 flex justify-center transform transition-all duration-1000 ${
+        className={`w-full md:w-1/2 flex justify-center transform transition-all duration-700 ${
           state.isVisible ? "translate-x-0 opacity-100" : "-translate-x-5 opacity-0"
         }`}
       >
@@ -54,7 +54,7 @@ export default function AboutSection() {
 
       {/* Text Container */}
       <div
-        className={`w-full md:w-1/2 flex flex-col transform transition-all duration-1000 ${
+        className={`w-full md:w-1/2 flex flex-col transform transition-all duration-700 ${
           state.isVisible ? "translate-x-0 opacity-100" : "translate-x-5 opacity-0"
         }`}
       >
