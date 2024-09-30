@@ -50,4 +50,10 @@ export const data = {
       gradient: "bg-gradient-lemon",
     },
   ],
+  links: [
+    { name: "Blog", href: "/blog" },
+    { name: "Skills", href: "/#skills" },
+    { name: "Projects", href: "/#projects" },
+    { name: "Contact", href: "/#contact" },
+  ],
 };

@@ -1,30 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useGlobalContext } from "@/hooks/globalState";
+import { useEffect } from "react";
+import useGlobalState from "@/hooks/useGlobalState";
 
 export default function AboutSection() {
-  const { state, dispatch } = useGlobalContext();
-  const [colors, setColors] = useState(state?.colors); // Initialize local state for colors
-
-  useEffect(() => {
-    dispatch({ type: "SET_IS_VISIBLE", payload: true });
-  }, [dispatch]);
-
-  // Update colors from global state when they change
-  useEffect(() => {
-    if (state?.colors) {
-      setColors(state.colors);
-    }
-  }, [state?.colors]);
-
-  // Define color variables
-  const text_color = colors["text-color"];
-  const bg_color = colors["bg-color"];
-  const text_light = colors["text-light"];
-  const bg_light = colors["bg-light"];
-  const gradient = colors["gradient"];
+  const { state } = useGlobalState();
+  const {
+    "text-color": text_color,
+    "bg-color": bg_color,
+    "text-light": text_light,
+    "bg-light": bg_light,
+    gradient,
+  } = state.color;
 
   return (
     <section id="about" className={`h-screen px-10 flex flex-col md:flex-row justify-around items-center ${gradient}`}>
@@ -47,12 +35,11 @@ export default function AboutSection() {
           alt="Programmer Gautam"
           width={300}
           height={300}
-          className="rounded-full w-auto h-[150px]" // CSS to maintain aspect ratio
+          className="rounded-full w-auto h-[150px]"
           priority
         />
       </div>
 
-      {/* Text Container */}
       <div
         className={`w-full md:w-1/2 flex flex-col transform transition-all duration-700 ${
           state.isVisible ? "translate-x-0 opacity-100" : "translate-x-5 opacity-0"

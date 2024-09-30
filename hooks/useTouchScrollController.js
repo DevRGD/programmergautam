@@ -1,15 +1,18 @@
 import { useRef, useEffect, useCallback } from "react";
+import useGlobalState from "@/hooks/useGlobalState";
 
-const useTouchScrollController = ({ sectionRefs, colors, dispatch }) => {
+const useTouchScrollController = ({ sectionRefs }) => {
+  const { state, dispatch } = useGlobalState();
   const currentSection = useRef(0);
   const isScrolling = useRef(false);
   const touchStartY = useRef(0);
+  const colors = state.data.colors;
 
   // Update colors for the specified section
   const updateColorsForSection = useCallback(
     (sectionIndex) => {
-      const newColors = colors[sectionIndex];
-      dispatch({ type: "SET_COLORS", payload: newColors });
+      const newColor = colors[sectionIndex];
+      dispatch({ type: "SET_COLOR", payload: newColor });
     },
     [colors, dispatch]
   );
@@ -31,11 +34,13 @@ const useTouchScrollController = ({ sectionRefs, colors, dispatch }) => {
       updateColorsForSection(newSectionIndex);
       currentSection.current = newSectionIndex;
 
+      // Reset scrolling after 700ms and set visibility to true again
       setTimeout(() => {
         isScrolling.current = false;
+        dispatch({ type: "SET_IS_VISIBLE", payload: true });
       }, 700);
     },
-    [sectionRefs, updateColorsForSection]
+    [sectionRefs, updateColorsForSection, dispatch]
   );
 
   // Handle scroll events
@@ -43,16 +48,21 @@ const useTouchScrollController = ({ sectionRefs, colors, dispatch }) => {
     (event) => {
       event.preventDefault();
       if (!isScrolling.current) {
+        dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during scroll
         event.deltaY > 0 ? scrollToSection("down") : scrollToSection("up");
       }
     },
-    [scrollToSection]
+    [scrollToSection, dispatch]
   );
 
   // Handle touch start event
-  const handleTouchStart = useCallback((event) => {
-    touchStartY.current = event.touches[0].clientY;
-  }, []);
+  const handleTouchStart = useCallback(
+    (event) => {
+      touchStartY.current = event.touches[0].clientY;
+      dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during touch start
+    },
+    [dispatch]
+  );
 
   // Handle touch move event
   const handleTouchMove = useCallback(
@@ -75,23 +85,32 @@ const useTouchScrollController = ({ sectionRefs, colors, dispatch }) => {
         case "ArrowDown":
         case "PageDown":
           event.preventDefault();
-          if (!isScrolling.current) scrollToSection("down");
+          if (!isScrolling.current) {
+            dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during keypress
+            scrollToSection("down");
+          }
           break;
         case "ArrowUp":
         case "PageUp":
           event.preventDefault();
-          if (!isScrolling.current) scrollToSection("up");
+          if (!isScrolling.current) {
+            dispatch({ type: "SET_IS_VISIBLE", payload: false }); // Hide during keypress
+            scrollToSection("up");
+          }
           break;
         default:
           break;
       }
     },
-    [scrollToSection]
+    [scrollToSection, dispatch]
   );
 
   // Initialize and clean up event listeners
   useEffect(() => {
     const options = { passive: false };
+
+    // Dispatch visible on first load
+    dispatch({ type: "SET_IS_VISIBLE", payload: true });
 
     window.addEventListener("wheel", handleScroll, options);
     window.addEventListener("touchstart", handleTouchStart, options);
@@ -100,14 +119,13 @@ const useTouchScrollController = ({ sectionRefs, colors, dispatch }) => {
 
     // Set initial colors on the first load
     updateColorsForSection(currentSection.current);
-
     return () => {
       window.removeEventListener("wheel", handleScroll);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleScroll, handleTouchStart, handleTouchMove, handleKeyDown, updateColorsForSection]);
+  }, [handleScroll, handleTouchStart, handleTouchMove, handleKeyDown, updateColorsForSection, dispatch]);
 
   return null;
 };

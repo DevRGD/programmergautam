@@ -2,30 +2,22 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import MobileMenuButton from "../buttons/MobileMenuButton";
-import { useGlobalContext } from "@/hooks/globalState";
+import useGlobalState from "@/hooks/useGlobalState";
 
 export default function Header() {
-  const { state } = useGlobalContext(); // Get colors from global context
-  const [colors, setColors] = useState(state?.colors); // Initialize local state for colors
+  const { state } = useGlobalState();
   const [underlinePosition, setUnderlinePosition] = useState(0);
   const [underlineWidth, setUnderlineWidth] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const links = [
-    { name: "Blog", href: "/blog" },
-    { name: "Skills", href: "/#skills" },
-    { name: "Projects", href: "/#projects" },
-    { name: "Contact", href: "/#contact" },
-  ];
-
-  // Update local state whenever the global colors change
-  useEffect(() => {
-    if (state?.colors) {
-      setColors(state.colors);
-    }
-  }, [state?.colors]);
+  const color = state.color;
+  const text_color = color["text-color"];
+  const bg_color = color["bg-color"];
+  const text_light = color["text-light"];
+  const bg_light = color["bg-light"];
+  const gradient = color["gradient"];
+  const links = state.data.links;
 
   useEffect(() => {
     if (isHovering) {
@@ -55,13 +47,6 @@ export default function Header() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
-
-  // Build class names based directly on the colors from state
-  const text_color = colors["text-color"];
-  const bg_color = colors["bg-color"];
-  const text_light = colors["text-light"];
-  const bg_light = colors["bg-light"];
-  const gradient = colors["gradient"];
 
   return (
     <header className="fixed w-full top-0 z-50 transition-all duration-300">

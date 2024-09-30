@@ -4,16 +4,8 @@ import { useState } from "react";
 
 export default function SkillCard({ skill }) {
   const [isFlipped, setIsFlipped] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsFlipped(true);
-  };
-
-  const handleMouseLeave = () => {
-    setTimeout(() => {
-      setIsFlipped(false);
-    }, 700);
-  };
+  const handleMouseEnter = () => setIsFlipped(true);
+  const handleMouseLeave = () => setTimeout(() => setIsFlipped(false), 700);
 
   return (
     <div

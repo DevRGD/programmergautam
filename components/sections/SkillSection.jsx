@@ -26,14 +26,5 @@ const skillsData = [
 ];
 
 export default function Skills() {
-  return (
-    <Section
-      title="Skills"
-      id={"#skills"}
-      data={skillsData}
-      Card={SkillCard}
-      withScallop={false}
-      bgColor="bg-gradient-lavender"
-    />
-  );
+  return <Section title="Skills" id={"#skills"} data={skillsData} Card={SkillCard} />;
 }
