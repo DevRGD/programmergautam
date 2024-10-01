@@ -46,3 +46,38 @@ body {
 .transition-transform {
   transition: transform 0.7s ease-in-out;
 }
+
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.border-div::after,
+.border-div::before {
+  content: "";
+  height: calc(100% + 2px);
+  width: calc(100% + 2px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  padding: 2px;
+  background-image: conic-gradient(from var(--angle), #6A0DAD, #008080, #B309AD, #6A0DAD);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  filter: blur(1px);
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+
+  to {
+    --angle: 360deg;
+  }
+}

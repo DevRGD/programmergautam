@@ -19,7 +19,7 @@ export default function SkillCard() {
       {state.data.skills.map((skill, index) => (
         <div key={index}>
           <div
-            className={`w-full h-48 shadow-lg relative transform-style-preserve-3d transition-transform duration-700 ease-in-out rounded-sm ${
+            className={`w-full h-48 relative transform-style-preserve-3d transition-transform duration-700 ease-in-out rounded-sm ${
               state.color["gradient"]
             } ${flippedIndex === index ? "rotate-y-180" : ""}`}
             onMouseEnter={() => handleMouseEnter(index)}
@@ -27,9 +27,12 @@ export default function SkillCard() {
           >
             {/* Front Face */}
             <div
-              className={`absolute w-full h-full backface-hidden flex flex-col items-center justify-center p-4 rounded-sm`}
+              className={`absolute w-full h-full backface-hidden flex flex-col items-center justify-center p-4 rounded-sm ${state.color["bg-light"]}`}
             >
-              <h3 className={`md:text-2xl text-lg font-bold ${state.color["text-light"]}`}>{skill.name}</h3>
+              <h3 className={`md:text-2xl text-lg font-bold ${state.color["text-color"]}`}>{skill.name}</h3>
+              <div className="flex justify-center items-center w-full h-full absolute">
+                <div className="border-div flex justify-center items-center relative -z-10 transition-all duration-300 ease-linear min-w-full min-h-full"></div>
+              </div>
             </div>
 
             {/* Back Face */}
