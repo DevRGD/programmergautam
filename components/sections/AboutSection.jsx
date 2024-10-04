@@ -15,7 +15,7 @@ export default function AboutSection() {
           state.isVisible ? "opacity-100 top-0" : "opacity-0 top-5"
         }`}
       >
-        <h2 className={`md:text-4xl text-2xl font-bold ${state.color["text-color"]}`}>About</h2>
+        <h2 className={`md:text-4xl text-xl font-bold underline uppercase ${state.color["text-color"]}`}>About</h2>
       </div>
 
       {/* Image Container */}
@@ -59,10 +59,10 @@ export default function AboutSection() {
             <span className="relative z-10">Let&apos;s Talk</span>
           </button>
           <button
-            className={`relative px-6 py-3 bg-white ${state.color["text-color"]} font-semibold rounded-sm overflow-hidden group`}
+            className={`relative px-6 py-3 ${state.color["bg-light"]} ${state.color["text-color"]} font-semibold rounded-sm overflow-hidden group`}
           >
             <span
-              className={`absolute inset-0 h-full bg-teal-400 opacity-10 transition-transform duration-500 ease-out transform scale-x-0 origin-center group-hover:scale-x-100`}
+              className={`absolute inset-0 h-full bg-white transition-transform duration-500 ease-out transform scale-x-0 origin-center group-hover:scale-x-100 border-2 border-teal-100`}
             ></span>
             <span className="relative z-10">Projects</span>
           </button>

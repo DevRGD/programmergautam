@@ -63,9 +63,9 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: -1;
+  z-index: 100;
   padding: 2px;
-  background-image: conic-gradient(from var(--angle), #6A0DAD, #008080, #B309AD, #6A0DAD);
+  background-image: conic-gradient(from var(--angle), theme('colors.royalplum'), theme('colors.purple.50'), theme('colors.royalplum'), theme('colors.purple.50'), theme('colors.royalplum'));
   opacity: 1;
   transition: opacity 0.3s ease;
   filter: blur(1px);

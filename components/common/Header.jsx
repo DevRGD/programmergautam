@@ -42,7 +42,7 @@ export default function Header() {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header className="fixed w-full top-0 z-50 transition-all duration-300">
+    <header className="fixed w-full top-0 z-10 transition-all duration-300">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <Link href="/" className="md:text-4xl text-2xl font-bold flex justify-center items-center">

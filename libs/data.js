@@ -1,4 +1,4 @@
-export const data = {
+export default {
   colors: [
     {
       "text-color": "text-tealwave",

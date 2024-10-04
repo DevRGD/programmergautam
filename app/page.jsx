@@ -1,5 +1,7 @@
 "use client";
 import { useRef } from "react";
+import Loading from "./Loading";
+import useGlobalState from "@/hooks/useGlobalState";
 import AboutSection from "@/components/sections/AboutSection";
 import SkillSection from "@/components/sections/SkillSection";
 import ProjectSection from "@/components/sections/ProjectSection";
@@ -7,8 +9,11 @@ import ContactSection from "@/components/sections/ContactSection";
 import useTouchScrollController from "@/hooks/useTouchScrollController";
 
 export default function Home() {
+  const { state } = useGlobalState();
   const sectionRefs = useRef([]);
   useTouchScrollController({ sectionRefs });
+
+  if (state.isLoading) return <Loading />;
 
   return (
     <>

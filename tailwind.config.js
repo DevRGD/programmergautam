@@ -23,7 +23,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  // plugins: [require("@tailwindcss/typography")],
   safelist: [
     { pattern: /(text|bg)-(tealwave|royalplum|oceanbreeze|crimsonflare|saffronburst|orchidbloom|lemonzest)/ },
     { pattern: /(text|bg)-(teal|purple|sky|rose|orange|pink|yellow)-50/ },
