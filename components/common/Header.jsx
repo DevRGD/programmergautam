@@ -5,7 +5,7 @@ import MobileMenuButton from "../buttons/MobileMenuButton";
 import useGlobalState from "@/hooks/useGlobalState";
 
 export default function Header() {
-  const { state } = useGlobalState();
+  const { state, dispatch } = useGlobalState();
   const [underlinePosition, setUnderlinePosition] = useState(0);
   const [underlineWidth, setUnderlineWidth] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,7 +39,13 @@ export default function Header() {
   };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLinkClick = (index) => {
+    dispatch({ type: "SET_IS_VISIBLE", payload: false });
+    dispatch({ type: "SET_COLOR", payload: state.data.colors[index] });
+    setIsMenuOpen(false);
+    setTimeout(() => dispatch({ type: "SET_IS_VISIBLE", payload: true }), 500);
+  };
 
   return (
     <header className="fixed w-full top-0 z-10 transition-all duration-300">
@@ -69,6 +75,7 @@ export default function Header() {
               className={`relative font-semibold secondary-font ${state.color["text-color"]}`}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
+              onClick={() => handleLinkClick(index)}
             >
               {link.name}
             </Link>
@@ -89,7 +96,7 @@ export default function Header() {
                 key={index}
                 href={link.href}
                 className="text-2xl secondary-font font-semibold transition-all duration-300"
-                onClick={closeMenu}
+                onClick={() => handleLinkClick(index)}
               >
                 {link.name}
               </Link>

@@ -15,7 +15,7 @@ export default function AboutSection() {
           state.isVisible ? "opacity-100 top-0" : "opacity-0 top-5"
         }`}
       >
-        <h2 className={`md:text-4xl text-xl font-bold underline uppercase ${state.color["text-color"]}`}>About</h2>
+        <h2 className={`md:text-4xl text-xl font-bold uppercase ${state.color["text-color"]}`}>About</h2>
       </div>
 
       {/* Image Container */}

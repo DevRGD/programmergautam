@@ -30,7 +30,7 @@ const useTouchScrollController = ({ sectionRefs }) => {
       }
 
       // Smooth scroll to the new section
-      sectionRefs.current[newSectionIndex].scrollIntoView({ behavior: "smooth" });
+      sectionRefs.current[newSectionIndex]?.scrollIntoView({ behavior: "smooth" });
 
       // Update color and current section index
       updateColorsForSection(newSectionIndex);
@@ -40,7 +40,7 @@ const useTouchScrollController = ({ sectionRefs }) => {
       setTimeout(() => {
         isScrolling.current = false; // Allow next scroll after animation
         dispatch({ type: "SET_IS_VISIBLE", payload: true });
-      }, 700); // The timeout should match the smooth scroll duration
+      }, 500); // The timeout should match the smooth scroll duration
     },
     [sectionRefs, updateColorsForSection, dispatch]
   );
@@ -110,7 +110,7 @@ const useTouchScrollController = ({ sectionRefs }) => {
       if (progress >= 100) {
         clearInterval(interval);
         dispatch({ type: "SET_IS_LOADING", payload: false });
-        setTimeout(() => dispatch({ type: "SET_IS_VISIBLE", payload: true }), 300);
+        setTimeout(() => dispatch({ type: "SET_IS_VISIBLE", payload: true }), 500);
       }
     }, 20);
   }, [dispatch]);
