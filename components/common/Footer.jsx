@@ -4,7 +4,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="flex text-white sm:space-y-2 space-y-4 w-full bottom-0 fixed justify-end items-end z-10 pb-2 pr-2">
+    <footer className="flex text-white sm:space-y-2 space-y-4 w-full bottom-0 fixed justify-end items-end pb-2 pr-2">
       {/* Github */}
       <Link href="https://github.com/programmergautam" passHref target="_blank" rel="noopener noreferrer">
         <div className="p-2 transition-transform transform hover:scale-125">
