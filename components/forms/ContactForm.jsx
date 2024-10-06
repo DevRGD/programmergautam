@@ -1,45 +1,69 @@
 "use client";
 import { useState } from "react";
+import email from "@/utils/email";
 import useGlobalState from "@/hooks/useGlobalState";
+import Notification from "@/components/common/Notification";
 
 export default function ContactForm() {
   const { state } = useGlobalState();
   const [activeTab, setActiveTab] = useState("hire");
+  const [notification, setNotification] = useState(null);
+  const [setsending, setSetsending] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSetsending(true);
+    const formData = new FormData(e.target);
+    const data = { name: formData.get("name"), email: formData.get("email"), message: formData.get("message") };
+
+    try {
+      await email(data);
+      setNotification({ message: "Message sent successfully!", type: "success" });
+      setSetsending(false);
+      e.target.reset();
+    } catch (error) {
+      setSetsending(false);
+      setNotification({ message: "Failed to send message. Try again later.", type: "error" });
+    }
+  };
 
   return (
-    <div className="max-w-96 min-h-fit mx-auto p-4">
+    <div className="w-full max-w-xl mx-auto p-4 text-lg">
       {/* Tabs */}
-      <div className="text-nowrap flex justify-center items-center mb-6">
+      <div className="flex justify-center items-center mb-6">
         <button
           onClick={() => setActiveTab("hire")}
-          className={`p-2 sm:p-3 flex-1 text-center ${
+          className={`p-3 flex-1 text-center ${
             activeTab === "hire"
-              ? state.color["bg-color"] + " " + state.color["text-light"]
-              : state.color["bg-light"] + " " + state.color["text-color"]
-          } rounded-l transition-colors duration-1000 secondary-font`}
+              ? `${state?.color?.["bg-color"]} ${state?.color?.["text-light"]}`
+              : `${state?.color?.["bg-light"]} ${state?.color?.["text-color"]}`
+          } rounded-l-sm transition-colors duration-300 capitalize`}
         >
           Hire Me
         </button>
         <button
           onClick={() => setActiveTab("work")}
-          className={`p-2 sm:p-3 flex-1 text-center ${
+          className={`p-3 flex-1 text-center ${
             activeTab === "work"
-              ? state.color["bg-color"] + " " + state.color["text-light"]
-              : state.color["bg-light"] + " " + state.color["text-color"]
-          } rounded-r transition-colors duration-1000 secondary-font`}
+              ? `${state?.color?.["bg-color"]} ${state?.color?.["text-light"]}`
+              : `${state?.color?.["bg-light"]} ${state?.color?.["text-color"]}`
+          } rounded-r-sm transition-colors duration-300 capitalize`}
         >
           Work Together
         </button>
       </div>
 
-      {/* Form with sliding animation */}
-      <div className="relative">
+      {/* Form with sliding and fading animation */}
+      <div className="relative h-auto">
+        {/* Hire Me Form */}
         <div
           className={`absolute inset-0 transition-all transform ${
-            activeTab === "hire" ? "translate-x-0" : "-translate-x-20 opacity-0"
-          } w-full duration-1000`}
+            activeTab === "hire"
+              ? "translate-x-0 opacity-100 z-10 pointer-events-auto"
+              : "translate-x-10 opacity-0 z-0 pointer-events-none"
+          } w-full duration-700 ease-in-out`}
         >
-          <form action="/api/contact" method="POST" className="flex flex-col space-y-4">
+          <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
             <input
               type="text"
               name="name"
@@ -63,21 +87,24 @@ export default function ContactForm() {
             />
             <button
               type="submit"
-              className={`p-3 rounded-sm hover:bg-teal transition duration-1000 secondary-font ${
-                state.color["bg-color"] + " " + state.color["text-light"]
+              className={`p-3 rounded-sm transition-colors duration-300 ${
+                state?.color?.["bg-color"] + " " + state?.color?.["text-light"]
               }`}
             >
-              Send Message
+              {setsending ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>
 
+        {/* Work Together Form */}
         <div
           className={`absolute inset-0 transition-all transform ${
-            activeTab === "work" ? "translate-x-0" : "translate-x-20 opacity-0"
-          } w-full duration-1000`}
+            activeTab === "work"
+              ? "translate-x-0 opacity-100 z-10 pointer-events-auto"
+              : "-translate-x-10 opacity-0 z-0 pointer-events-none"
+          } w-full duration-700 ease-in-out`}
         >
-          <form action="/api/contact" method="POST" className="flex flex-col space-y-4">
+          <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
             <input
               type="text"
               name="name"
@@ -101,15 +128,20 @@ export default function ContactForm() {
             />
             <button
               type="submit"
-              className={`p-3 rounded-sm hover:bg-teal-500 transition duration-1000 secondary-font ${
-                state.color["bg-color"] + " " + state.color["text-light"]
+              className={`p-3 rounded-sm transition-colors duration-300 ${
+                state?.color?.["bg-color"] + " " + state?.color?.["text-light"]
               }`}
             >
-              Start Collaboration
+              {setsending ? "Sending..." : "Start Collaboration"}
             </button>
           </form>
         </div>
       </div>
+
+      {/* Notification */}
+      {notification && (
+        <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />
+      )}
     </div>
   );
 }

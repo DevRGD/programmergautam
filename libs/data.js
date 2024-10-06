@@ -79,4 +79,27 @@ export default {
       description: "The standard markup language for documents designed to be displayed in a web browser.",
     },
   ],
+  projects: [
+    {
+      name: "Project One",
+      description: "This project uses React and Node.js to create a full-stack application.",
+      image: "/path/to/image1.jpg",
+      githubLink: "https://github.com/username/project-one",
+      liveLink: "https://project-one.com",
+    },
+    {
+      name: "Project Two",
+      description: "A responsive website built with HTML, CSS, and JavaScript.",
+      image: "/path/to/image2.jpg",
+      githubLink: "https://github.com/username/project-two",
+      liveLink: "https://project-two.com",
+    },
+    {
+      name: "Project Three",
+      description: "An e-commerce platform developed with Next.js and MongoDB.",
+      image: "/path/to/image3.jpg",
+      githubLink: "https://github.com/username/project-three",
+      liveLink: "https://project-three.com",
+    },
+  ],
 };
